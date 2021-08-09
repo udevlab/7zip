@@ -12,7 +12,7 @@ jobs:
 
     - uses: edgarrc/action-7z@v1
       with:
-        args: 7z x 7z1900-extra.7z -o 7z1900-extra
+        args: 7z x 7z1900-extra.7z -o7z1900-extra
 
     - name: Run Tests
       run: ls -ltr
