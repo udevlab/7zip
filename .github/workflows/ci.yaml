@@ -12,7 +12,7 @@ jobs:
 
     - uses: edgarrc/action-7z@v1
       with:
-        args: 7z x 7z1900-extra.7z ./build/
+        args: 7z x 7z1900-extra.7z 
 
     - name: Archive Release
       uses: thedoctor0/zip-release@master
