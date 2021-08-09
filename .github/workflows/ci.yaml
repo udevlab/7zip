@@ -1,0 +1,15 @@
+on: [push]
+
+jobs:
+
+  curl:
+    runs-on: ubuntu-latest
+    steps:
+    - name: curl
+      uses: wei/curl@v1
+      with:
+        args: -O https://www.7-zip.org/a/7z1900-extra.7z
+
+    - uses: edgarrc/action-7z@v1
+      with:
+        args: 7z t 7z1900-extra.7z ./build/
