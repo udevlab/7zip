@@ -23,7 +23,7 @@ jobs:
     - name: Created the zip archive for the release
       uses: montudor/action-zip@v1
       with:
-        args: zip -r 7z1900-extra.zip 7z1900-extra 
+        args: zip -r 7z1900-extra.zip 7z1900-extra/*.dll 7z1900-extra/*.exe 7z1900-extra/*.txt
 
     - name: Create GitHub Release
       id: create_release
