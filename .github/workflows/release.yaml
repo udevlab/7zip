@@ -18,7 +18,7 @@ jobs:
         args: 7z x 7z1900-extra.7z -o7z1900-extra
 
     - name: Run Tests
-      run: ls -ltr
+      run: ls -ltr 7z1900-extra/*.dll
 
     - name: Created the zip archive for the release
       uses: montudor/action-zip@v1
