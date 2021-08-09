@@ -1,0 +1,48 @@
+on:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v2.1.3
+      
+jobs:
+
+  curl:
+    runs-on: ubuntu-latest
+    steps:
+    - name: curl
+      uses: wei/curl@v1
+      with:
+        args: -O https://www.7-zip.org/a/7z1900-extra.7z
+
+    - uses: edgarrc/action-7z@v1
+      with:
+        args: 7z x 7z1900-extra.7z -o7z1900-extra
+
+    - name: Run Tests
+      run: ls -ltr
+
+    - name: Created the zip archive for the release
+      uses: montudor/action-zip@v1
+      with:
+        args: zip -r 7z1900-extra.zip 7z1900 
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+       
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{github.workspace}}/7z1900-extra.zip
+        asset_name: 7z1900-extra.zip
+        asset_content_type: application/zip
