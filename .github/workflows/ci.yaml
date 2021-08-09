@@ -17,10 +17,9 @@ jobs:
     - name: Archive Release
       uses: thedoctor0/zip-release@master
       with:
-        path: 'xpto'
+        path: '7z1900-extra'
         type: 'zip'
-        filename: 'release.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig'
+        filename: '7z1900-extra.zip'
 
     - name: Create GitHub Release
       id: create_release
@@ -40,6 +39,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{github.workspace}}/asciidoctor-vscode-${{ steps.semver_parser.outputs.fullversion }}.vsix
-        asset_name: asciidoctor-vscode-${{ steps.semver_parser.outputs.fullversion }}.vsix
+        asset_path: ${{github.workspace}}/7z1900-extra.zip
+        asset_name: 7z1900-extra.zip
         asset_content_type: application/zip
