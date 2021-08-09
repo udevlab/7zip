@@ -12,4 +12,34 @@ jobs:
 
     - uses: edgarrc/action-7z@v1
       with:
-        args: 7z t 7z1900-extra.7z ./build/
+        args: 7z x 7z1900-extra.7z ./build/
+
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
+      with:
+        path: 'xpto'
+        type: 'zip'
+        filename: 'release.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+       
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{github.workspace}}/asciidoctor-vscode-${{ steps.semver_parser.outputs.fullversion }}.vsix
+        asset_name: asciidoctor-vscode-${{ steps.semver_parser.outputs.fullversion }}.vsix
+        asset_content_type: application/zip
